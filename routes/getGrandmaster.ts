@@ -1,5 +1,8 @@
 import { ProxyOptionType } from './../types.d';
 import express, { Request } from 'express';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const grandMasterRouter = express.Router();
 import { createProxyMiddleware } from 'http-proxy-middleware';
