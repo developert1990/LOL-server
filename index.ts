@@ -1,7 +1,7 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import cors from 'cors';
-import * as dotenv from 'dotenv';
-
 import challengerRouter from './routes/getChallenger';
 import grandMasterRouter from './routes/getGrandmaster';
 import masterRouter from './routes/getMaster';
@@ -17,10 +17,10 @@ import baseDataRouter from './routes/getBaseDataRouter';
 
 // json 파일 import 하기 위해서 tsconfig.json에     "resolveJsonModule": true, 이거 추가 해줘야한다. https://gracefullight.dev/2019/11/26/import-json-with-typescript-ts5071/
 import champsData from './data/lolChamps.json';
-import spellsData from './data/lolChamps.json';
-import runesData from './data/lolChamps.json';
+import spellsData from './data/spells.json';
+import runesData from './data/runes.json';
 
-dotenv.config();
+
 const app = express();
 const PORT = 7080;
 

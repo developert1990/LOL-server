@@ -1,11 +1,10 @@
 import { ProxyOptionType } from './../types.d';
 import express, { Request } from 'express';
 import { createProxyMiddleware } from 'http-proxy-middleware';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 const challengerRouter = express.Router();
+
+console.log('process.env ==> ', process.env.RIOT_TOKEN)
 
 console.log('챌린저 정보')
 const {
@@ -43,5 +42,6 @@ challengerRouter.use('/test', (req, res) => {
     console.log('test');
     res.send('테스트 성공')
 })
+
 
 export default challengerRouter;
