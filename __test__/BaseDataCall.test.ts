@@ -31,7 +31,8 @@ describe("User Info test", () => {
     test("A user Info test Success", async () => {
 
         // axios 라는 mock을 통합해서 만들어서 사용.
-        mockedAxios.get.mockImplementation(() => Promise.resolve({
+        const mock = jest.spyOn(axios, 'get');
+        mock.mockImplementation(() => Promise.resolve({
             data: {
                 "id": "PAdcKpoBoLc4Zs4nIwXtn1--hhElJGnC3ZpMgZ8k9c0wtg",
                 "accountId": "PICVAE-59XRJKW0F9RpFxXlWZeZ9S9JFlQLoicwCrxbL",
@@ -42,11 +43,10 @@ describe("User Info test", () => {
                 "summonerLevel": 414
             }
         }))
-
         const result = await request(baseDataRouter).get(`/proxy/${QUERYENUM.EXISTINGID_01}/${QUERYENUM.KR}`).set({ 'X-Riot-Token': process.env.RIOT_TOKEN }).send();
         expect(result.status).toBe(200);
-        expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-        expect(mockedAxios.get).toHaveBeenCalledWith(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/hide on bush?region=kr`, headers);
+        expect(mock).toHaveBeenCalledTimes(1);
+        expect(mock).toHaveBeenCalledWith(`https://kr.api.riotgames.com/lol/summoner/v4/summoners/by-name/hide on bush?region=kr`, headers);
         expect(result.body).toEqual(EXISTINGID_01_InfoResult) // 객체를 비교할 때 toMatchObject shallow equality, toEqual 은 deep equality이다.
     })
 
@@ -61,21 +61,23 @@ describe("User Detail test", () => {
     });
 
     test("No region and Id set", async () => {
-        mockedAxios.get.mockImplementation(() => Promise.reject({
+        const mock = jest.spyOn(axios, 'get');
+        mock.mockImplementation(() => Promise.reject({
             data: { message: "Id is incorrect" }
-        }));
+        }))
 
         const result = await request(baseDataRouter).get(`/proxy/RandomName/${QUERYENUM.KR}/summonerDetail`).set({ 'X-Riot-Token': process.env.RIOT_TOKEN }).send(); // send()는 POST 요청할때 사용 
         expect(result.status).toBe(400);
-        expect(mockedAxios.get).toHaveBeenCalled();
-        expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-        expect(mockedAxios.get).toHaveBeenCalledWith("https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/RandomName?region=kr", headers);
+        expect(mock).toHaveBeenCalled();
+        expect(mock).toHaveBeenCalledTimes(1);
+        expect(mock).toHaveBeenCalledWith("https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/RandomName?region=kr", headers);
         expect(result.body.message).toBe("Id is incorrect");
         jest.resetAllMocks();
     })
 
     test("User Detail test Success", async () => {
-        mockedAxios.get.mockImplementation(() => Promise.resolve({
+        const mock = jest.spyOn(axios, 'get');
+        mock.mockImplementation(() => Promise.resolve({
             data: [{
                 "freshBlood": false, "hotStreak": false, "inactive": false, "leagueId": "a37af09b-ecb8-3664-9453-cf2b0138dd6e",
                 "leaguePoints": 353, "losses": 141, "queueType": "RANKED_SOLO_5x5", "rank": "I", "summonerId": "PAdcKpoBoLc4Zs4nIwXtn1--hhElJGnC3ZpMgZ8k9c0wtg",
@@ -84,22 +86,23 @@ describe("User Detail test", () => {
         }))
         const result = await request(baseDataRouter).get(`/proxy/${EXISTINGID_01_InfoResult.id}/${QUERYENUM.KR}/summonerDetail`).set({ 'X-Riot-Token': process.env.RIOT_TOKEN }).send();
         expect(result.status).toBe(200);
-        expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-        expect(mockedAxios.get).toHaveBeenCalledWith("https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/PAdcKpoBoLc4Zs4nIwXtn1--hhElJGnC3ZpMgZ8k9c0wtg?region=kr", headers)
+        expect(mock).toHaveBeenCalledTimes(1);
+        expect(mock).toHaveBeenCalledWith("https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/PAdcKpoBoLc4Zs4nIwXtn1--hhElJGnC3ZpMgZ8k9c0wtg?region=kr", headers)
         expect(result.body).toEqual(userDetailResult);
     })
 
     // 이부분 여쭤보기
     test("User Detail with no rank information test Success", async () => {
-        mockedAxios.get.mockImplementation(() => Promise.resolve({
+        const mock = jest.spyOn(axios, 'get');
+        mock.mockImplementation(() => Promise.resolve({
             data: { message: "No rank information for current filters." }
         }))
         const result = await request(baseDataRouter).get(`/proxy/${QUERYENUM.NORANKINFO_ID}/${QUERYENUM.KR}/summonerDetail`).set({ 'X-Riot-Token': process.env.RIOT_TOKEN }).send();
 
         expect(result.status).toBe(200);
-        expect(mockedAxios.get).toHaveBeenCalled();
-        expect(mockedAxios.get).toHaveBeenCalledTimes(1);
-        expect(mockedAxios.get).toHaveBeenCalledWith("https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/rlbFqFa8wbKH-P6Mpyj_gYDN5ceypgCbCGbgYOpSA-aZl-k?region=kr", headers)
+        expect(mock).toHaveBeenCalled();
+        expect(mock).toHaveBeenCalledTimes(1);
+        expect(mock).toHaveBeenCalledWith("https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/rlbFqFa8wbKH-P6Mpyj_gYDN5ceypgCbCGbgYOpSA-aZl-k?region=kr", headers)
         expect(result.body.message).toEqual("No rank information for current filters.");
     })
 });

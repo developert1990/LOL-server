@@ -1,0 +1,40 @@
+name: Deploy to EC2 instance
+on:
+  workflow_dispatch:
+    inputs:
+      gitSha:
+        description: 'docker image tag'
+        required: true
+      containerName:
+        description: 'docker container name'
+        required: true
+
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checking out code from git
+        uses: actions/checkout@v2
+      - name: Setting up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/ec2.key
+          chmod 600 ~/.ssh/ec2.key
+          cat >> ~/.ssh/ec2.key << END
+          Host aws
+            Hostname $SSH_KEY
+            user ubuntu
+            IdentityFile ~/.ssh/ec2.key
+            StrictHostKeyChecking no
+          END
+          cat ~/.ssh/ec2.key
+        env:
+          SSH_KEY: ${{secrets.SSH_KEY}}
+          SSH_HOST: ${{secrets.SSH_HOST}}
+      - name: Log into ec2 and deploy
+        run: |
+          export IMAGE_NAME=$IMAGE:${{github.event.inputs.gitSha}}
+          export CONTAINER_NAME=${{github.event.inputs.containerName}}
+          ssh aws docker run -e NODE_ENV=production --name $CONTAINER_NAME -d -p 7080:7080 $IMAGE_NAME
+        env:
+          IMAGE: ${{secrets.IMAGE}}
