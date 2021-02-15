@@ -10,6 +10,7 @@ const {
     RIOT_TOKEN
 } = process.env;
 
+
 const options: ProxyOptionType = {
     target: 'https://kr.api.riotgames.com',
     changeOrigin: true,

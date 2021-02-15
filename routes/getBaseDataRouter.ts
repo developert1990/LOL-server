@@ -4,62 +4,80 @@ import express, { Request, Response } from 'express';
 import Axios from 'axios';
 
 
-const baseDataRouter = express.Router();
+// express.Router() 이렇게 하면 테스트 할때 오류가 난다.... express()로 바꿔주니까 에러 사라짐
+const baseDataRouter = express();
 
 // 검색한 해당 유저 info
 baseDataRouter.get('/proxy/:summonerId/:region', async (req: Request, res: Response) => {
-    console.log('환경변수 라이엇 ', process.env.RIOT_TOKEN)
     const summonerId = req.params.summonerId;
     const region = req.params.region;
-    if (!region) {
-        return res.status(404).send({ message: "No region set" });
+    try {
+        const { data } = await Axios.get(`${GET_SUMMOER_BY_NAME(summonerId, region)}`, {
+            headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
+        })
+        return res.status(200).send(data);
+    } catch (error) {
+        return res.status(404).send({ message: "This summoner is not registered at H.GG." });
     }
-    const { data } = await Axios.get(`${GET_SUMMOER_BY_NAME(summonerId, region)}`, {
-        headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
-    })
-    res.status(200).send(data);
 });
 
 // user의 detail info
 baseDataRouter.get('/proxy/:id/:region/summonerDetail', async (req: Request, res: Response) => {
     const id: string = req.params.id;
     const region: string = req.params.region;
-    if (!id || !region) {
-        return res.status(404).send({ message: "No region or id set" });
+    try {
+        const { data } = await Axios.get(`${GET_SUMMONER_DETAIL_BY_ID(id, region)}`, {
+            headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
+        });
+        // console.log('data ==>> ', data)
+        if (data.length !== 0) {
+            return res.status(200).send(data);
+        } else {
+
+            return res.status(405).send({ message: "No rank information for current filters." })
+        }
+    } catch (error) {
+        return res.status(400).send({ message: "Id is incorrect" })
     }
-    const { data } = await Axios.get(`${GET_SUMMONER_DETAIL_BY_ID(id, region)}`, {
-        headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
-    });
-    res.status(200).send(data);
+
+
+
+
 })
 
 // user의 game match 된 ID 들 뽑는곳
 baseDataRouter.get('/proxy/:accountId/:region/matchId', async (req: Request, res: Response) => {
     const accountId: string = req.params.accountId;
     const region: string = req.params.region;
-    if (!accountId || !region) {
-        return res.status(404).send({ message: "No region or accountId set" });
-    }
+    try {
+        const { data } = await Axios.get(`${GET_MATCH_ID(accountId, region)}`, {
+            headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
 
-    const { data } = await Axios.get(`${GET_MATCH_ID(accountId, region)}`, {
-        headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
-    });
-    res.status(200).send(data);
+
+        });
+        return res.status(200).send(data);
+
+    } catch (error) {
+        return res.status(404).send({ message: "No match history." })
+    }
 });
 
 // user의 game match list 를 id 를 통해 뽑는곳
 baseDataRouter.get('/proxy/:matchId/:region/matchList', async (req: Request, res: Response) => {
     const matchId: number = Number(req.params.matchId);
     const region: string = req.params.region;
-    console.log('matchId ==> ', matchId)
-    console.log('region ==> ', region)
-    if (!matchId || !region) {
-        return res.status(404).send({ message: "No region or matchId set" });
+    // if (!matchId || !region) {
+    //     return res.status(404).send({ message: "No region or matchId set" });
+    // }
+    try {
+        const { data } = await Axios.get(`${GET_MATCH_DETAILS(matchId, region)}`, {
+            headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
+        });
+        res.status(200).send(data);
+
+    } catch (error) {
+        res.status(405).send({ message: "No games for current filters. Try changing the filters or playing some more matches." })
     }
-    const { data } = await Axios.get(`${GET_MATCH_DETAILS(matchId, region)}`, {
-        headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
-    });
-    res.status(200).send(data);
 })
 
 

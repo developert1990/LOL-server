@@ -81,6 +81,6 @@ app.get('/runes', (req, res) => {
 
 
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
     console.log(`LOL Server is running.. at ${PORT}`);
 })

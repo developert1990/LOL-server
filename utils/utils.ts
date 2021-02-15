@@ -1,5 +1,5 @@
 export const URLHEAD = (region: string) => {
-    return `https://${region}.api.riotgames.com`
+    return `https://${region}.api.riotgames.com`;
 }
 
 export const GET_SUMMOER_BY_NAME = (summonerId: string, region: string) => {
