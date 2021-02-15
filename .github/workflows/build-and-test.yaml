@@ -1,0 +1,35 @@
+name: Build and Test LoL server
+
+on: workflow_dispatch
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.18]
+    
+        steps:
+          - name: Checking out code from git
+            uses: actions/checkout@v2
+
+          - name: User Node.js ${{matrix.node-version}}
+            uses: actions/setup-node@v1
+            with:
+              node-version: ${{matrix.node-version}}
+
+          - name: Setting environment variables
+            run: |
+              chmod +x ./scripts/set-env.sh
+              ./scripts/set-env.sh
+              cat .env
+
+            env:
+              RIOT_TOKEN: ${{secrets.RIOT_TOKEN}}
+              PORT: ${{secrets.PORT}}
+
+          - run: npm install
+          - run: npm test
+          - run: npm build

@@ -1,6 +1,7 @@
+
+import express, { Request, Response } from 'express';
 import * as dotenv from 'dotenv';
 dotenv.config();
-import express from 'express';
 import cors from 'cors';
 import challengerRouter from './routes/getChallenger';
 import grandMasterRouter from './routes/getGrandmaster';
@@ -77,9 +78,9 @@ app.get('/runes', (req, res) => {
     res.json(runes);
 })
 
-
-
-
+app.get('/', (req: Request, res: Response) => {
+    res.send("LOL server is running well..🐱‍🚀")
+})
 
 export const server = app.listen(PORT, () => {
     console.log(`LOL Server is running.. at ${PORT}`);

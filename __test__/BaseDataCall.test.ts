@@ -4,16 +4,7 @@ dotenv.config();
 import baseDataRouter from '../routes/getBaseDataRouter';
 import axios from 'axios';
 import mockedAxios from '../__mocks__/axios';
-import { EXISTINGID_01_InfoResult, EXISTINGID_02_InfoResult, matchIdEX, matchedGameDetail, userDetailResult } from './SuccessData';
-
-const enum QUERYENUM {
-    UNEXISTINGID = "28745dfgeg235ertert",
-    EXISTINGID_01 = "hide%20on%20bush",
-    EXISTINGID_02 = "dwg%20viper",
-    NORANKINFO_ID = "rlbFqFa8wbKH-P6Mpyj_gYDN5ceypgCbCGbgYOpSA-aZl-k",
-    KR = "kr",
-    NA1 = "na1",
-}
+import { QUERYENUM, EXISTINGID_01_InfoResult, EXISTINGID_02_InfoResult, matchIdEX, matchedGameDetail, userDetailResult } from './SuccessData';
 
 
 

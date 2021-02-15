@@ -1,3 +1,14 @@
+
+export const enum QUERYENUM {
+    UNEXISTINGID = "28745dfgeg235ertert",
+    EXISTINGID_01 = "hide%20on%20bush",
+    EXISTINGID_02 = "dwg%20viper",
+    NORANKINFO_ID = "rlbFqFa8wbKH-P6Mpyj_gYDN5ceypgCbCGbgYOpSA-aZl-k",
+    KR = "kr",
+    NA1 = "na1",
+}
+
+
 export const EXISTINGID_01_InfoResult = {
     "id": "PAdcKpoBoLc4Zs4nIwXtn1--hhElJGnC3ZpMgZ8k9c0wtg",
     "accountId": "PICVAE-59XRJKW0F9RpFxXlWZeZ9S9JFlQLoicwCrxbL",
