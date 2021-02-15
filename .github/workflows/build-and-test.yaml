@@ -15,7 +15,7 @@ jobs:
       - name: Checking out code from git
         uses: actions/checkout@v2
 
-      - name: User Node.js ${{matrix.node-version}}
+      - name: User Node.js ${{matrix.node-version}} # Github Action에 가상 ubuntu에 node를 설치해줌. 설치를 해야 npm 명령어를 실행시킬수있기 때문.
         uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
@@ -29,7 +29,7 @@ jobs:
         env:
           RIOT_TOKEN: ${{secrets.RIOT_TOKEN}}
           PORT: ${{secrets.PORT}}
-
+# 테스트 할때 package.json에 test scripts 에서 jest --watchAll 이었는데 --watchAll때문에 Github Action(CI/CD) 에서 test가 끝나지 않고 계속 watch를 하게 되었다. 그래서 이걸 지워야 테스트를 마칠 수있다.
       - run: npm install
-      - run: npm test
+      - run: npm test  
       - run: npm build
