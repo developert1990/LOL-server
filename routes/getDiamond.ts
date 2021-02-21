@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const diamondRouter = express.Router();
+const diamondRouter = express();
 import { createProxyMiddleware } from 'http-proxy-middleware';
 const {
     RIOT_TOKEN

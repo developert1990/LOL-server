@@ -7,12 +7,12 @@ import challengerRouter from './routes/getChallenger';
 import grandMasterRouter from './routes/getGrandmaster';
 import masterRouter from './routes/getMaster';
 import diamondRouter from './routes/getDiamond';
-// import lolProxy from './routes/getBaseDataRouter';
 import baseDataRouter from './routes/getBaseDataRouter';
 
 // import platinum from './routes/getPlatinum';
 // import gold from './routes/getGold';
 // import silver from './routes/getSilver';
+
 // import bronzeRouter from './routes/getBronze';
 // import iron from './routes/getIron';
 
@@ -20,9 +20,10 @@ import baseDataRouter from './routes/getBaseDataRouter';
 import champsData from './data/lolChamps.json';
 import spellsData from './data/spells.json';
 import runesData from './data/runes.json';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 
-const app = express();
+export const app = express();
 const PORT = 7080;
 
 console.log('환경변수: ', process.env.RIOT_TOKEN)
@@ -38,15 +39,25 @@ app.use(express.json());
 app.use(express.static("public"));
 
 
-
-
-
 app.use('/CHALLENGER', challengerRouter);
 app.use('/GRANDMASTER', grandMasterRouter);
 app.use('/MASTER', masterRouter);
 app.use('/DIAMOND', diamondRouter);
 
-app.use('/summonorById', baseDataRouter)
+const options: any = {
+    target: 'https://kr.api.riotgames.com/',
+    headers: {
+        'X-Riot-Token': process.env.RIOT_TOKEN,
+    },
+    changeOrigin: true,
+    router: (req: Request) => {
+        const { region } = req.query;
+        return region ? `https://${region}.api.riotgames.com` : `https://kr.api.riotgames.com`;
+    }
+}
+const lolProxy = createProxyMiddleware(options);
+
+app.use('/lol', lolProxy)
 
 
 // app.use('/lol', lolProxy, (req, res) => {

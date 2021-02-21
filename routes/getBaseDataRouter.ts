@@ -1,3 +1,6 @@
+// 결국... 이 라우터 사용하면 RIOT 서버 문제 때문에 한글검색도 되지 않고,,,, 뭐 그렇다.. 그래서 index.ts 에서 바로 proxy 서버 연결해서 데이터 뽑음..
+// 이 페이지는 그냥 test 연습 용이다.
+
 import { URLHEAD, GET_SUMMOER_BY_NAME, GET_SUMMONER_DETAIL_BY_ID, GET_MATCH_ID, GET_MATCH_DETAILS } from './../utils/utils';
 import { ProxyOptionType } from './../types.d';
 import express, { Request, Response } from 'express';
@@ -11,6 +14,7 @@ const baseDataRouter = express();
 baseDataRouter.get('/proxy/:summonerId/:region', async (req: Request, res: Response) => {
     const summonerId = req.params.summonerId;
     const region = req.params.region;
+    console.log('summonerId', summonerId)
     try {
         const { data } = await Axios.get(`${GET_SUMMOER_BY_NAME(summonerId, region)}`, {
             headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
@@ -29,7 +33,7 @@ baseDataRouter.get('/proxy/:id/:region/summonerDetail', async (req: Request, res
         const { data } = await Axios.get(`${GET_SUMMONER_DETAIL_BY_ID(id, region)}`, {
             headers: { 'X-Riot-Token': process.env.RIOT_TOKEN as string }
         });
-        // console.log('data ==>> ', data)
+        console.log('data ==>> ', data)
         if (data.length !== 0) {
             return res.status(200).send(data);
         } else {
@@ -37,6 +41,7 @@ baseDataRouter.get('/proxy/:id/:region/summonerDetail', async (req: Request, res
             return res.status(405).send({ message: "No rank information for current filters." })
         }
     } catch (error) {
+        console.log('error  ==>> ', error)
         return res.status(400).send({ message: "Id is incorrect" })
     }
 
