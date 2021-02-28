@@ -45,10 +45,10 @@ describe("All Challengers", () => {
     //     // expect(result.body.length).toBeGreaterThan(1);
     // })
 
-    test("Fail to get all Challengers when tierPage is not 1", async () => {
-        const result = await request(server).get("/CHALLENGER/data?division=I&region=kr&tierPage=3");
-        expect(result.body.length).toBe(0);
-    })
+    // test("Fail to get all Challengers when tierPage is not 1", async () => {
+    //     const result = await request(server).get("/CHALLENGER/data?division=I&region=kr&tierPage=3");
+    //     expect(result.body.length).toBe(0);
+    // })
 
     test("Fail to get all Challengers when division is not 'I'", async () => {
         const result = await request(server).get("/CHALLENGER/data?division=II&region=kr&tierPage=1");

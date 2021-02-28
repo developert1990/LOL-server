@@ -65,7 +65,7 @@ userRouter.post('/register', async (req: Request, res: Response) => {
         })
     } catch (error) {
         console.log("에러발생했다.")
-        res.redirect(307, './signin');
+        res.redirect(307, './signin'); // 307: redirect to post method.
     }
 
 
