@@ -23,6 +23,7 @@ jobs:
         env:
           PORT: ${{secrets.PORT}}
           RIOT_TOKEN: ${{secrets.RIOT_TOKEN}}
+          MONGODB_URL: ${{secrets.MONGODB_URL}}
       - name: Building docker image
         run: make build
 

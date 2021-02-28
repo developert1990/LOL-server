@@ -10,15 +10,15 @@ import axios from 'axios';
 // import { app } from '../index';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
-describe("All Challengers", () => {
-    afterEach(() => {
-        jest.resetModules();
-        jest.restoreAllMocks();
-    })
+// describe("All Challengers", () => {
+//     afterEach(() => {
+//         jest.resetModules();
+//         jest.restoreAllMocks();
+//     })
 
-    afterAll(() => {
-        server.close();
-    })
+//     afterAll(() => {
+//         server.close();
+//     })
 
     // https://stackoverflow.com/questions/64051580/how-to-test-express-router-catch-branch-in-this-scenario-using-jest
 
@@ -55,4 +55,4 @@ describe("All Challengers", () => {
     //     expect(result.body).toEqual({ "status": { "message": "Bad request - Division is invalid", "status_code": 400 } });
     // })
 
-})
+// })
