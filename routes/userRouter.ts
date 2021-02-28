@@ -49,13 +49,14 @@ userRouter.post('/register', async (req: Request, res: Response) => {
         // 짧은 만료기간을 가진 일반 토큰 쿠키에 저장
         res.cookie(COOKIENAME.LOL_COOKIE, token, {
             maxAge: 1000 * 60 * TIME.REGULAR_TOKEN_TIME,
-            httpOnly: true,
+            // httpOnly: true,
             domain: getCookieDomain(),
         });
 
         // 조금 긴 만료기간을 가진 refresh 토큰 쿠키에 저장
         res.cookie(COOKIENAME.LOL_COOKIE_REFRESH, refreshToken, {
-            maxAge: 1000 * 60 * TIME.REFRESH_TOKEN_TIME, httpOnly: true, // 10 분
+            maxAge: 1000 * 60 * TIME.REFRESH_TOKEN_TIME,
+            //  httpOnly: true, // 10 분
             domain: getCookieDomain(),
         })
         res.send({
@@ -100,13 +101,14 @@ userRouter.post('/signin', async (req: Request, res: Response) => {
         // 짧은 만료기간을 가진 일반 토큰 쿠키에 저장
         res.cookie(COOKIENAME.LOL_COOKIE, token, {
             maxAge: 1000 * 60 * TIME.REGULAR_TOKEN_TIME,
-            httpOnly: true,
+            // httpOnly: true,
             domain: getCookieDomain(),
         });
 
         // 조금 긴 만료기간을 가진 refresh 토큰 쿠키에 저장
         res.cookie(COOKIENAME.LOL_COOKIE_REFRESH, refreshToken, {
-            maxAge: 1000 * 60 * TIME.REFRESH_TOKEN_TIME, httpOnly: true, // 10 분
+            maxAge: 1000 * 60 * TIME.REFRESH_TOKEN_TIME,
+            //  httpOnly: true, // 10 분
             domain: getCookieDomain(),
         })
 
@@ -189,7 +191,7 @@ userRouter.get('/refreshSession', async (req: Request, res: Response) => {
         // 짧은 만료기간을 가진 일반 토큰 쿠키에 저장
         res.cookie(COOKIENAME.LOL_COOKIE, newToken, {
             maxAge: 1000 * 60 * 1,
-            httpOnly: true,
+            // httpOnly: true,
             domain: getCookieDomain(),
         });
         return res.send({
