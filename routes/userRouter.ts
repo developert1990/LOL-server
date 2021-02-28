@@ -50,6 +50,7 @@ userRouter.post('/register', async (req: Request, res: Response) => {
         res.cookie(COOKIENAME.LOL_COOKIE, token, {
             maxAge: 1000 * 60 * TIME.REGULAR_TOKEN_TIME,
             // httpOnly: true,
+            secure: true,
             domain: getCookieDomain(),
         });
 
@@ -57,7 +58,9 @@ userRouter.post('/register', async (req: Request, res: Response) => {
         res.cookie(COOKIENAME.LOL_COOKIE_REFRESH, refreshToken, {
             maxAge: 1000 * 60 * TIME.REFRESH_TOKEN_TIME,
             //  httpOnly: true, // 10 분
+            secure: true,
             domain: getCookieDomain(),
+
         })
         res.send({
             name: typedUser.name,
@@ -102,6 +105,7 @@ userRouter.post('/signin', async (req: Request, res: Response) => {
         res.cookie(COOKIENAME.LOL_COOKIE, token, {
             maxAge: 1000 * 60 * TIME.REGULAR_TOKEN_TIME,
             // httpOnly: true,
+            secure: true,
             domain: getCookieDomain(),
         });
 
@@ -109,6 +113,7 @@ userRouter.post('/signin', async (req: Request, res: Response) => {
         res.cookie(COOKIENAME.LOL_COOKIE_REFRESH, refreshToken, {
             maxAge: 1000 * 60 * TIME.REFRESH_TOKEN_TIME,
             //  httpOnly: true, // 10 분
+            secure: true,
             domain: getCookieDomain(),
         })
 
