@@ -35,8 +35,7 @@ if (!process.env.MONGODB_URL) {
 export const app = express();
 const PORT = 7080;
 
-console.log('환경변수: ', process.env.RIOT_TOKEN)
-
+console.log('환경체크 ===>>> ', process.env.NODE_ENV)
 const corsOption = {
     origin: true,
     credentials: true,
