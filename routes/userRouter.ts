@@ -29,8 +29,8 @@ userRouter.post('/register', async (req: Request, res: Response) => {
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8),
     });
-
-    console.log('쿠키 도메인 설정할거 ===>> ', getCookieDomain())
+    const a = getCookieDomain()
+    console.log('쿠키 도메인 설정할거 ===>> ', a)
     try {
 
         const createdUser = await user.save();
