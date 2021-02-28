@@ -7,6 +7,8 @@ import challengerRouter from './routes/getChallenger';
 import grandMasterRouter from './routes/getGrandmaster';
 import masterRouter from './routes/getMaster';
 import diamondRouter from './routes/getDiamond';
+import mongoose from 'mongoose';
+import userRouter from './routes/userRouter';
 import baseDataRouter from './routes/getBaseDataRouter';
 
 // import platinum from './routes/getPlatinum';
@@ -23,6 +25,13 @@ import runesData from './data/runes.json';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 
+if (!process.env.MONGODB_URL) {
+    console.error("MONGODB_URL is not set");
+    process.exit(1);
+}
+
+
+
 export const app = express();
 const PORT = 7080;
 
@@ -37,6 +46,14 @@ const corsOption = {
 app.use(cors<cors.CorsRequest>(corsOption));
 app.use(express.json());
 app.use(express.static("public"));
+
+app.use('/lolUser', userRouter);
+
+
+mongoose.connect(process.env.MONGODB_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
 
 
 app.use('/CHALLENGER', challengerRouter);

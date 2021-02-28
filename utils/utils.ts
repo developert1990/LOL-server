@@ -17,3 +17,4 @@ export const GET_MATCH_ID = (accountId: string, region: string) => {
 export const GET_MATCH_DETAILS = (gameId: number, region: string) => {
     return `${URLHEAD(region)}/lol/match/v4/matches/${gameId}?region=${region}`;
 }
+
