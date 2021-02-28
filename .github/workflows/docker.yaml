@@ -25,6 +25,7 @@ jobs:
           RIOT_TOKEN: ${{secrets.RIOT_TOKEN}}
           MONGODB_URL: ${{secrets.MONGODB_URL}}
           JWT_SECRET: ${{secrets.JWT_SECRET}}
+          COOKIE_DOMAIN_PROD: ${{secrets.COOKIE_DOMAIN_PROD}}
       - name: Building docker image
         run: make build
 
