@@ -50,9 +50,9 @@ describe("All Challengers", () => {
     //     expect(result.body.length).toBe(0);
     // })
 
-    test("Fail to get all Challengers when division is not 'I'", async () => {
-        const result = await request(server).get("/CHALLENGER/data?division=II&region=kr&tierPage=1");
-        expect(result.body).toEqual({ "status": { "message": "Bad request - Division is invalid", "status_code": 400 } });
-    })
+    // test("Fail to get all Challengers when division is not 'I'", async () => {
+    //     const result = await request(server).get("/CHALLENGER/data?division=II&region=kr&tierPage=1");
+    //     expect(result.body).toEqual({ "status": { "message": "Bad request - Division is invalid", "status_code": 400 } });
+    // })
 
 })
