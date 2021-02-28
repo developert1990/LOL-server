@@ -50,13 +50,13 @@ userRouter.post('/register', async (req: Request, res: Response) => {
         res.cookie(COOKIENAME.LOL_COOKIE, token, {
             maxAge: 1000 * 60 * TIME.REGULAR_TOKEN_TIME,
             httpOnly: true,
-            domain: getCookieDomain() as string,
+            domain: "*.hongleague.netlify.app" as string,
         });
 
         // 조금 긴 만료기간을 가진 refresh 토큰 쿠키에 저장
         res.cookie(COOKIENAME.LOL_COOKIE_REFRESH, refreshToken, {
             maxAge: 1000 * 60 * TIME.REFRESH_TOKEN_TIME, httpOnly: true, // 10 분
-            domain: getCookieDomain() as string,
+            domain: "*.hongleague.netlify.app" as string,
         })
         res.send({
             name: typedUser.name,
@@ -101,13 +101,13 @@ userRouter.post('/signin', async (req: Request, res: Response) => {
         res.cookie(COOKIENAME.LOL_COOKIE, token, {
             maxAge: 1000 * 60 * TIME.REGULAR_TOKEN_TIME,
             httpOnly: true,
-            domain: getCookieDomain() as string,
+            domain: "*.hongleague.netlify.app" as string,
         });
 
         // 조금 긴 만료기간을 가진 refresh 토큰 쿠키에 저장
         res.cookie(COOKIENAME.LOL_COOKIE_REFRESH, refreshToken, {
             maxAge: 1000 * 60 * TIME.REFRESH_TOKEN_TIME, httpOnly: true, // 10 분
-            domain: getCookieDomain() as string,
+            domain: "*.hongleague.netlify.app" as string,
         })
 
         res.send({

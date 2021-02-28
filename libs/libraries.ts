@@ -8,6 +8,7 @@ import { NextFunction, Response } from 'express';
 
 export const generateToken = async (user: userFromDB | decodeExistingUserType, expiresIn = COOKIE_EXP.REGULAR_TOKEN_EXP) => {
     console.log('process.env.JWT_SECRET', process.env.JWT_SECRET)
+    console.log('process.env.JWT_SECRET', process.env.COOKIE_DOMAIN_PROD)
     return jwt.sign({
         _id: user._id,
         name: user.name,
