@@ -1,3 +1,4 @@
+
 import { CustomRequestExtendsUser, decodeExistingUserType, decodeType, decodeTypeForRenewToken } from '../types';
 import { COOKIENAME, COOKIE_EXP, DOMAIN } from '../constants/userConstants';
 import cookie from 'cookie';
@@ -7,6 +8,7 @@ import { NextFunction, Response } from 'express';
 
 export const generateToken = async (user: userFromDB | decodeExistingUserType, expiresIn = COOKIE_EXP.REGULAR_TOKEN_EXP) => {
     console.log('process.env.JWT_SECRET', process.env.JWT_SECRET)
+    console.log('쿠키 도메인 설정할거 ===>> ', a)
     return jwt.sign({
         _id: user._id,
         name: user.name,
