@@ -152,6 +152,8 @@ userRouter.put('/signout', isAuth, async (req: CustomRequestExtendsUser, res: Re
         await typedUser.save();
     }
 
+
+
     res.clearCookie(COOKIENAME.LOL_COOKIE)
     res.clearCookie(COOKIENAME.LOL_COOKIE_REFRESH)
     res.status(200).send({ message: "Successfully logged out" })
