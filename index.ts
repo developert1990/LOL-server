@@ -8,6 +8,7 @@ import masterRouter from './routes/getMaster';
 import diamondRouter from './routes/getDiamond';
 import mongoose from 'mongoose';
 import userRouter from './routes/userRouter';
+import productRouter from './routes/productRouter';
 import baseDataRouter from './routes/getBaseDataRouter';
 
 // import platinum from './routes/getPlatinum';
@@ -46,6 +47,7 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.use('/lolUser', userRouter);
+app.use('/lolProduct', productRouter);
 
 
 mongoose.connect(process.env.MONGODB_URL, {
