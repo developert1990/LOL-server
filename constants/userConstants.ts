@@ -11,7 +11,7 @@ export const DOMAIN = {
 }
 
 export const TIME = {
-    REGULAR_TOKEN_TIME: 10, // 10분
+    REGULAR_TOKEN_TIME: 60, // 10분
     REFRESH_TOKEN_TIME: 180, // 3시간
 }
 

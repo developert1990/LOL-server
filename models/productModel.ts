@@ -22,7 +22,7 @@ export interface reviewType {
 }
 
 const reviewSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: true, unique: true, sparse: true },
     comment: { type: String, required: true },
     rating: { type: Number, required: true },
 }, { timestamps: true });
