@@ -24,10 +24,12 @@ userRouter.get('/createAdminAcc', async (req: Request, res: Response) => {
 
 
 userRouter.post('/register', async (req: Request, res: Response) => {
+    console.log(`req.body ==>> `, req.body)
     const user = new User({
         name: req.body.name,
         email: req.body.email,
         password: bcrypt.hashSync(req.body.password, 8),
+        isAdmin: req.body.isAdmin ? req.body.isAdmin : false,
     });
     const a = getCookieDomain() as string;
     console.log('쿠키 도메인 설정할거 ===>> ', a)
@@ -214,9 +216,70 @@ userRouter.get('/refreshSession', async (req: Request, res: Response) => {
 })
 
 
+// Get all user data with admin account
+userRouter.get('/admin/allUserList', isAdmin, async (req: Request, res: Response) => {
+    try {
+        const users = await User.find();
+        res.status(200).send(users);
+    } catch (error) {
+        res.status(404).send("Can not get users from DB");
+    }
+})
 
 
+// Get user detail with admin account
+userRouter.get('/admin/:id/userDetail', isAdmin, async (req: Request, res: Response) => {
+    console.log("유저 디테일 뽑는곳");
+    const user = await User.findById(req.params.id);
+    if (user) {
+        res.send(user)
+    } else {
+        res.status(404).send({ message: 'User Not Found' });
+    }
+})
 
+// update user data with admin account
+userRouter.put('/admin/:id/userUpdate', isAdmin, async (req: Request, res: Response) => {
+    const user = await User.findById(req.params.id);
+    const typedUser = user as userFromDB;
+    if (user) {
+        typedUser.name = req.body.name || typedUser.name;
+        typedUser.email = req.body.email || typedUser.email;
+        typedUser.isAdmin = req.body.isAdmin
+        if (typedUser.email === "admin@example.com") {
+            res.status(500).send({ message: 'Can not Update main Admin User' });
+        }
+        try {
+            console.log(`req.body.isAdmin ==> `, req.body.isAdmin)
+            console.log(`typedUser.isAdmin==> `, typedUser.isAdmin)
+            const updatedUser = await typedUser.save();
+            res.send({ message: 'User Updated', user: updatedUser })
+        } catch (error) {
+            res.status(500).send({ message: 'Error to update user..' });
+        }
+    } else {
+        res.status(404).send({ message: 'User Not Found' });
+    }
+})
+
+// delete user data with admin account
+userRouter.delete('/admin/:id/userDelete', isAdmin, async (req: Request, res: Response) => {
+    const user = await User.findById(req.params.id);
+    const typedUser = user as userFromDB;
+    if (user) {
+        if (typedUser.email === "admin@example.com") {
+            return res.status(500).send({ message: 'Can not delete Admin User' });
+        }
+        try {
+            const deleteUser = await typedUser.remove();
+            res.status(200).send({ message: 'User Deleted', user: deleteUser });
+        } catch (error) {
+            res.status(500).send({ message: 'Error to delete user..' });
+        }
+    } else {
+        res.status(404).send({ message: 'User Not Found' });
+    }
+})
 
 
 export default userRouter;
